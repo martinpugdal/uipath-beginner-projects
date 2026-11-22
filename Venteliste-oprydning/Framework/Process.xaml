@@ -1,0 +1,238 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_TransactionItem" Type="InArgument(sd:DataRow)" />
+    <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="in_TransactionNumber" Type="InArgument(x:Int32)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>Process_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>UiPath.Excel.Activities</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Runtime.InteropServices</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Process Venteliste" sap:VirtualizedContainerService.HintSize="800,2000" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="excelPath" />
+      <Variable x:TypeArguments="x:String" Name="sheetName" />
+      <Variable x:TypeArguments="x:Int32" Name="excelRow" />
+      <Variable x:TypeArguments="x:String" Name="cpr" />
+      <Variable x:TypeArguments="x:String" Name="navn" />
+      <Variable x:TypeArguments="x:String" Name="status" />
+      <Variable x:TypeArguments="x:String" Name="henvStr" />
+      <Variable x:TypeArguments="x:Int32" Name="maxDage" />
+      <Variable x:TypeArguments="x:Int32" Name="dage" />
+      <Variable x:TypeArguments="x:String" Name="resultat" />
+      <Variable x:TypeArguments="s:DateTime" Name="henvDato" />
+      <Variable x:TypeArguments="x:Boolean" Name="datoOk" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Assign DisplayName="excelPath" sap2010:WorkflowViewState.IdRef="Assign_Path">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[excelPath]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[System.IO.Path.Combine(Environment.CurrentDirectory, in_Config("ExcelPath").ToString())]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="sheetName" sap2010:WorkflowViewState.IdRef="Assign_Sheet">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[sheetName]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[in_Config("SheetName").ToString()]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="excelRow" sap2010:WorkflowViewState.IdRef="Assign_Row">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:Int32">[excelRow]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:Int32">[in_TransactionNumber + 1]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="maxDage" sap2010:WorkflowViewState.IdRef="Assign_MaxDage">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:Int32">[maxDage]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:Int32">[CInt(in_Config("MaxAntalDagePaaVenteliste").ToString())]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="cpr" sap2010:WorkflowViewState.IdRef="Assign_Cpr">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[cpr]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[If(in_TransactionItem Is Nothing OrElse IsDBNull(in_TransactionItem("CPR")), "", in_TransactionItem("CPR").ToString().Trim())]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="navn" sap2010:WorkflowViewState.IdRef="Assign_Navn">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[navn]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[If(in_TransactionItem Is Nothing OrElse IsDBNull(in_TransactionItem("Navn")), "", in_TransactionItem("Navn").ToString().Trim())]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="status" sap2010:WorkflowViewState.IdRef="Assign_Status">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[status]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[If(in_TransactionItem Is Nothing OrElse IsDBNull(in_TransactionItem("StatusISystem")), "", in_TransactionItem("StatusISystem").ToString().Trim())]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="henvStr" sap2010:WorkflowViewState.IdRef="Assign_HenvStr">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[henvStr]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[If(in_TransactionItem Is Nothing OrElse IsDBNull(in_TransactionItem("Henvisningsdato")), "", in_TransactionItem("Henvisningsdato").ToString().Trim())]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:LogMessage DisplayName="Log start" sap2010:WorkflowViewState.IdRef="LogMessage_Start" Level="Info" Message="[&quot;Behandler: CPR=&quot; &amp; cpr &amp; &quot;, Navn=&quot; &amp; navn &amp; &quot;, Status=&quot; &amp; status &amp; &quot;, Henvisningsdato=&quot; &amp; henvStr]" />
+
+    <If Condition="[String.IsNullOrWhiteSpace(cpr) OrElse String.IsNullOrWhiteSpace(navn)]" DisplayName="Valider CPR/Navn" sap2010:WorkflowViewState.IdRef="If_ValiderNavn">
+      <If.Then>
+        <Sequence DisplayName="BRE manglende CPR/Navn" sap2010:WorkflowViewState.IdRef="Seq_BreCpr">
+          <ui:WriteCell Cell="[&quot;F&quot; &amp; excelRow.ToString()]" DisplayName="Write Resultat Fejl" sap2010:WorkflowViewState.IdRef="WriteCell_BreCprRes" SheetName="[sheetName]" Text="Manuel gennemgang" WorkbookPath="[excelPath]" />
+          <ui:WriteCell Cell="[&quot;G&quot; &amp; excelRow.ToString()]" DisplayName="Write Fejlbesked" sap2010:WorkflowViewState.IdRef="WriteCell_BreCprMsg" SheetName="[sheetName]" Text="Manglende CPR eller Navn" WorkbookPath="[excelPath]" />
+          <ui:LogMessage DisplayName="Log BRE CPR/Navn" sap2010:WorkflowViewState.IdRef="Log_BreCpr" Level="Warn" Message="[&quot;BusinessRuleException: Manglende CPR eller Navn (række &quot; &amp; excelRow.ToString() &amp; &quot;)&quot;]" />
+          <Throw Exception="[New Exception(&quot;BusinessRuleException: Manglende CPR eller Navn&quot;)]" sap2010:WorkflowViewState.IdRef="Throw_BreCpr" />
+        </Sequence>
+      </If.Then>
+    </If>
+
+    <If Condition="[in_TransactionItem Is Nothing OrElse IsDBNull(in_TransactionItem(&quot;Henvisningsdato&quot;)) OrElse String.IsNullOrWhiteSpace(in_TransactionItem(&quot;Henvisningsdato&quot;).ToString())]" DisplayName="Henvisningsdato tom" sap2010:WorkflowViewState.IdRef="If_DatoTom">
+      <If.Then>
+        <Assign DisplayName="datoOk false tom" sap2010:WorkflowViewState.IdRef="Assign_DatoOkTom"><Assign.To><OutArgument x:TypeArguments="x:Boolean">[datoOk]</OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:Boolean">False</InArgument></Assign.Value></Assign>
+      </If.Then>
+      <If.Else>
+        <If Condition="[TypeOf in_TransactionItem(&quot;Henvisningsdato&quot;) Is DateTime]" DisplayName="Henvisningsdato DateTime" sap2010:WorkflowViewState.IdRef="If_DatoType">
+          <If.Then>
+            <Sequence DisplayName="Dato fra DateTime" sap2010:WorkflowViewState.IdRef="Seq_DatoDT">
+              <Assign DisplayName="Set henvDato" sap2010:WorkflowViewState.IdRef="Assign_HenvDT"><Assign.To><OutArgument x:TypeArguments="s:DateTime">[henvDato]</OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="s:DateTime">[CDate(in_TransactionItem(&quot;Henvisningsdato&quot;))]</InArgument></Assign.Value></Assign>
+              <Assign DisplayName="datoOk true" sap2010:WorkflowViewState.IdRef="Assign_DatoOkDT"><Assign.To><OutArgument x:TypeArguments="x:Boolean">[datoOk]</OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:Boolean">True</InArgument></Assign.Value></Assign>
+            </Sequence>
+          </If.Then>
+          <If.Else>
+            <Sequence DisplayName="Parse dato string" sap2010:WorkflowViewState.IdRef="Seq_ParseDato">
+              <Assign DisplayName="datoOk init" sap2010:WorkflowViewState.IdRef="Assign_DatoOkInit"><Assign.To><OutArgument x:TypeArguments="x:Boolean">[datoOk]</OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:Boolean">False</InArgument></Assign.Value></Assign>
+              <If Condition="[DateTime.TryParseExact(henvStr, &quot;yyyy-MM-dd&quot;, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, henvDato)]" DisplayName="Parse yyyy-MM-dd" sap2010:WorkflowViewState.IdRef="If_Parse1">
+                <If.Then>
+                  <Assign DisplayName="datoOk parse1" sap2010:WorkflowViewState.IdRef="Assign_DatoOkP1"><Assign.To><OutArgument x:TypeArguments="x:Boolean">[datoOk]</OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:Boolean">True</InArgument></Assign.Value></Assign>
+                </If.Then>
+                <If.Else>
+                  <If Condition="[DateTime.TryParseExact(henvStr, &quot;dd-MM-yyyy&quot;, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, henvDato)]" DisplayName="Parse dd-MM-yyyy" sap2010:WorkflowViewState.IdRef="If_Parse2">
+                    <If.Then>
+                      <Assign DisplayName="datoOk parse2" sap2010:WorkflowViewState.IdRef="Assign_DatoOkP2"><Assign.To><OutArgument x:TypeArguments="x:Boolean">[datoOk]</OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:Boolean">True</InArgument></Assign.Value></Assign>
+                    </If.Then>
+                    <If.Else>
+                      <If Condition="[DateTime.TryParse(henvStr, henvDato)]" DisplayName="Parse fallback" sap2010:WorkflowViewState.IdRef="If_Parse3">
+                        <If.Then>
+                          <Assign DisplayName="datoOk parse3" sap2010:WorkflowViewState.IdRef="Assign_DatoOkP3"><Assign.To><OutArgument x:TypeArguments="x:Boolean">[datoOk]</OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:Boolean">True</InArgument></Assign.Value></Assign>
+                        </If.Then>
+                      </If>
+                    </If.Else>
+                  </If>
+                </If.Else>
+              </If>
+            </Sequence>
+          </If.Else>
+        </If>
+      </If.Else>
+    </If>
+
+    <If Condition="[Not datoOk]" DisplayName="Valider henvisningsdato" sap2010:WorkflowViewState.IdRef="If_ValiderDato">
+      <If.Then>
+        <Sequence DisplayName="BRE ugyldig dato" sap2010:WorkflowViewState.IdRef="Seq_BreDato">
+          <ui:WriteCell Cell="[&quot;F&quot; &amp; excelRow.ToString()]" DisplayName="Write Resultat Fejl" sap2010:WorkflowViewState.IdRef="WriteCell_BreDatoRes" SheetName="[sheetName]" Text="Manuel gennemgang" WorkbookPath="[excelPath]" />
+          <ui:WriteCell Cell="[&quot;G&quot; &amp; excelRow.ToString()]" DisplayName="Write Fejlbesked" sap2010:WorkflowViewState.IdRef="WriteCell_BreDatoMsg" SheetName="[sheetName]" Text="[&quot;Ugyldig eller manglende henvisningsdato: &quot; &amp; henvStr]" WorkbookPath="[excelPath]" />
+          <ui:LogMessage DisplayName="Log BRE dato" sap2010:WorkflowViewState.IdRef="Log_BreDato" Level="Warn" Message="[&quot;BusinessRuleException: Ugyldig eller manglende henvisningsdato: &quot; &amp; henvStr]" />
+          <Throw Exception="[New Exception(&quot;BusinessRuleException: Ugyldig eller manglende henvisningsdato&quot;)]" sap2010:WorkflowViewState.IdRef="Throw_BreDato" />
+        </Sequence>
+      </If.Then>
+    </If>
+
+    <Assign DisplayName="Beregn dage" sap2010:WorkflowViewState.IdRef="Assign_Dage">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:Int32">[dage]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:Int32">[CInt((DateTime.Today - henvDato.Date).TotalDays)]</InArgument>
+      </Assign.Value>
+    </Assign>
+
+    <If Condition="[status = &quot;Behandlet&quot;]" DisplayName="Regel: Behandlet" sap2010:WorkflowViewState.IdRef="If_Behandlet">
+      <If.Then>
+        <Assign DisplayName="Fjernet behandlet" sap2010:WorkflowViewState.IdRef="Assign_ResBeh"><Assign.To><OutArgument x:TypeArguments="x:String">[resultat]</OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String">Fjernet</InArgument></Assign.Value></Assign>
+      </If.Then>
+      <If.Else>
+        <If Condition="[status = &quot;Aflyst&quot;]" DisplayName="Regel: Aflyst" sap2010:WorkflowViewState.IdRef="If_Aflyst">
+          <If.Then>
+            <Assign DisplayName="Fjernet aflyst" sap2010:WorkflowViewState.IdRef="Assign_ResAfl"><Assign.To><OutArgument x:TypeArguments="x:String">[resultat]</OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String">Fjernet</InArgument></Assign.Value></Assign>
+          </If.Then>
+          <If.Else>
+            <If Condition="[dage &gt; maxDage]" DisplayName="Regel: For gammel" sap2010:WorkflowViewState.IdRef="If_Gammel">
+              <If.Then>
+                <Assign DisplayName="Fjernet gammel" sap2010:WorkflowViewState.IdRef="Assign_ResGammel"><Assign.To><OutArgument x:TypeArguments="x:String">[resultat]</OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String">Fjernet</InArgument></Assign.Value></Assign>
+              </If.Then>
+              <If.Else>
+                <If Condition="[status = &quot;Ventende&quot;]" DisplayName="Regel: Ventende" sap2010:WorkflowViewState.IdRef="If_Ventende">
+                  <If.Then>
+                    <Assign DisplayName="Beholdt" sap2010:WorkflowViewState.IdRef="Assign_ResBehold"><Assign.To><OutArgument x:TypeArguments="x:String">[resultat]</OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String">Beholdt</InArgument></Assign.Value></Assign>
+                  </If.Then>
+                  <If.Else>
+                    <Assign DisplayName="Manuel gennemgang" sap2010:WorkflowViewState.IdRef="Assign_ResManuel"><Assign.To><OutArgument x:TypeArguments="x:String">[resultat]</OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String">Manuel gennemgang</InArgument></Assign.Value></Assign>
+                  </If.Else>
+                </If>
+              </If.Else>
+            </If>
+          </If.Else>
+        </If>
+      </If.Else>
+    </If>
+
+    <ui:WriteCell Cell="[&quot;F&quot; &amp; excelRow.ToString()]" DisplayName="Write Resultat" sap2010:WorkflowViewState.IdRef="WriteCell_Resultat" SheetName="[sheetName]" Text="[resultat]" WorkbookPath="[excelPath]" />
+    <ui:WriteCell Cell="[&quot;G&quot; &amp; excelRow.ToString()]" DisplayName="Write Fejlbesked tom" sap2010:WorkflowViewState.IdRef="WriteCell_FejlTom" SheetName="[sheetName]" Text="" WorkbookPath="[excelPath]" />
+    <ui:LogMessage DisplayName="Log resultat" sap2010:WorkflowViewState.IdRef="Log_Resultat" Level="Info" Message="[cpr &amp; &quot; - &quot; &amp; navn &amp; &quot;: &quot; &amp; resultat &amp; &quot; (status=&quot; &amp; status &amp; &quot;, dage=&quot; &amp; dage.ToString() &amp; &quot;)&quot;]" />
+  </Sequence>
+</Activity>

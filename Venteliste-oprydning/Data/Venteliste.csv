@@ -1,0 +1,13 @@
+﻿CPR;Navn;Henvisningsdato;StatusISystem;Behandlingsdato;Resultat;Fejlbesked
+0101901234;Anna Jensen;2025-09-12;Ventende;;;
+1502856789;Peter Hansen;2025-06-03;Behandlet;2025-11-05;;
+2203754321;Mette Olsen;2025-02-18;Aflyst;;;
+0804901122;Lars Nielsen;2025-10-01;Ventende;;;
+3012659876;Sofie Kristensen;2024-11-20;Ventende;;;
+;Uden CPR;2025-08-01;Ventende;;;
+1103904444;;2025-07-15;Ventende;;;
+1405805555;Mikkel Bruun;;Ventende;;;
+2506956666;Line Thomsen;2025-05-05;Ukendt;;;
+0901707777;Ole Madsen;2024-01-10;Ventende;;;
+1212121212;Ida Sørensen;2025-12-01;Behandlet;;;
+0101010101;Tom Ege;not-a-date;Ventende;;;

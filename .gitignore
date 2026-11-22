@@ -1,0 +1,22 @@
+# UiPath generated/local
+**/.local/
+**/.cache/
+**/.project/
+**/.entities/
+
+# Studio/OS temp
+~$*
+*.tmp
+*.bak
+Thumbs.db
+.DS_Store
+
+# Logs/output (keep placeholders if needed)
+**/Exceptions_Screenshots/
+**/Data/Logs/*.log
+
+# User-specific
+*.user
+*.suo
+.vs/
+.idea/

@@ -1,0 +1,108 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="EndProcess" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>EndProcess_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>UiPath.Excel.Activities</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Runtime.InteropServices</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="EndProcess" sap:VirtualizedContainerService.HintSize="600,1200" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="excelPath" />
+      <Variable x:TypeArguments="x:String" Name="sheetName" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dtResult" />
+      <Variable x:TypeArguments="x:Int32" Name="cntFjernet" />
+      <Variable x:TypeArguments="x:Int32" Name="cntBeholdt" />
+      <Variable x:TypeArguments="x:Int32" Name="cntManuel" />
+      <Variable x:TypeArguments="x:Int32" Name="cntFejl" />
+      <Variable x:TypeArguments="x:Int32" Name="cntBehandlet" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <TryCatch DisplayName="Try Close All Applications" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+      <TryCatch.Try>
+        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="CloseAllApplications" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Framework\CloseAllApplications.xaml">
+          <ui:InvokeWorkflowFile.Arguments>
+            <scg:Dictionary x:TypeArguments="x:String, Argument" />
+          </ui:InvokeWorkflowFile.Arguments>
+        </ui:InvokeWorkflowFile>
+      </TryCatch.Try>
+      <TryCatch.Catches>
+        <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch_1">
+          <ActivityAction x:TypeArguments="s:Exception">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+            </ActivityAction.Argument>
+            <Sequence DisplayName="Kill on close failure" sap2010:WorkflowViewState.IdRef="Sequence_2">
+              <ui:LogMessage DisplayName="Log close error" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Warn" Message="[&quot;CloseAllApplications failed: &quot; &amp; exception.Message]" />
+              <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="KillAllProcesses" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Framework\KillAllProcesses.xaml">
+                <ui:InvokeWorkflowFile.Arguments>
+                  <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                </ui:InvokeWorkflowFile.Arguments>
+              </ui:InvokeWorkflowFile>
+            </Sequence>
+          </ActivityAction>
+        </Catch>
+      </TryCatch.Catches>
+    </TryCatch>
+
+    <TryCatch DisplayName="Try log summary" sap2010:WorkflowViewState.IdRef="TryCatch_Summary">
+      <TryCatch.Try>
+        <Sequence DisplayName="Summary" sap2010:WorkflowViewState.IdRef="Seq_Summary">
+          <Assign DisplayName="excelPath" sap2010:WorkflowViewState.IdRef="Assign_EP"><Assign.To><OutArgument x:TypeArguments="x:String">[excelPath]</OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String">[System.IO.Path.Combine(Environment.CurrentDirectory, in_Config("ExcelPath").ToString())]</InArgument></Assign.Value></Assign>
+          <Assign DisplayName="sheetName" sap2010:WorkflowViewState.IdRef="Assign_SN"><Assign.To><OutArgument x:TypeArguments="x:String">[sheetName]</OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String">[in_Config("SheetName").ToString()]</InArgument></Assign.Value></Assign>
+          <ui:ReadRange Range="{x:Null}" AddHeaders="True" DataTable="[dtResult]" DisplayName="Read result Excel" sap2010:WorkflowViewState.IdRef="ReadRange_Result" SheetName="[sheetName]" WorkbookPath="[excelPath]" />
+          <Assign DisplayName="cntFjernet" sap2010:WorkflowViewState.IdRef="A_F"><Assign.To><OutArgument x:TypeArguments="x:Int32">[cntFjernet]</OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:Int32">[dtResult.Select("Resultat = 'Fjernet'").Length]</InArgument></Assign.Value></Assign>
+          <Assign DisplayName="cntBeholdt" sap2010:WorkflowViewState.IdRef="A_B"><Assign.To><OutArgument x:TypeArguments="x:Int32">[cntBeholdt]</OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:Int32">[dtResult.Select("Resultat = 'Beholdt'").Length]</InArgument></Assign.Value></Assign>
+          <Assign DisplayName="cntManuel" sap2010:WorkflowViewState.IdRef="A_M"><Assign.To><OutArgument x:TypeArguments="x:Int32">[cntManuel]</OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:Int32">[dtResult.Select("Resultat = 'Manuel gennemgang'").Length]</InArgument></Assign.Value></Assign>
+          <Assign DisplayName="cntFejl" sap2010:WorkflowViewState.IdRef="A_Fe"><Assign.To><OutArgument x:TypeArguments="x:Int32">[cntFejl]</OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:Int32">[dtResult.Select("Fejlbesked &lt;&gt; ''").Length]</InArgument></Assign.Value></Assign>
+          <Assign DisplayName="cntBehandlet" sap2010:WorkflowViewState.IdRef="A_Beh"><Assign.To><OutArgument x:TypeArguments="x:Int32">[cntBehandlet]</OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:Int32">[dtResult.Select("Resultat &lt;&gt; ''").Length]</InArgument></Assign.Value></Assign>
+          <ui:LogMessage DisplayName="Log summary" sap2010:WorkflowViewState.IdRef="Log_Summary" Level="Info" Message="[&quot;Opsummering - Behandlet: &quot; &amp; cntBehandlet.ToString() &amp; &quot;, Fjernet: &quot; &amp; cntFjernet.ToString() &amp; &quot;, Beholdt: &quot; &amp; cntBeholdt.ToString() &amp; &quot;, Manuel gennemgang: &quot; &amp; cntManuel.ToString() &amp; &quot;, Fejl: &quot; &amp; cntFejl.ToString()]" />
+        </Sequence>
+      </TryCatch.Try>
+      <TryCatch.Catches>
+        <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch_Sum">
+          <ActivityAction x:TypeArguments="s:Exception">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+            </ActivityAction.Argument>
+            <ui:LogMessage DisplayName="Log summary error" sap2010:WorkflowViewState.IdRef="Log_SumErr" Level="Warn" Message="[&quot;Kunne ikke lave opsummering: &quot; &amp; exception.Message]" />
+          </ActivityAction>
+        </Catch>
+      </TryCatch.Catches>
+    </TryCatch>
+  </Sequence>
+</Activity>

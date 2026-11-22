@@ -1,0 +1,191 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:sd1="clr-namespace:System.Drawing;assembly=System.Drawing.Common" xmlns:sd2="clr-namespace:System.Drawing;assembly=System.Drawing.Primitives" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uix="http://schemas.uipath.com/workflow/activities/uix" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_TransactionItem" Type="InArgument(sd:DataRow)" />
+    <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="in_TransactionNumber" Type="InArgument(x:Int32)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>GlobalVariablesT1PNoYwrqg</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic.Core</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Runtime.InteropServices</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext.Activities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <sap:WorkflowViewStateService.ViewState>
+    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+      <x:Boolean x:Key="ShouldExpandAll">True</x:Boolean>
+    </scg:Dictionary>
+  </sap:WorkflowViewStateService.ViewState>
+  <Sequence DisplayName="Process" sap:VirtualizedContainerService.HintSize="800,2200" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="excelPath" />
+      <Variable x:TypeArguments="x:String" Name="sheetName" />
+      <Variable x:TypeArguments="x:String" Name="formUrl" />
+      <Variable x:TypeArguments="x:String" Name="fornavn" />
+      <Variable x:TypeArguments="x:String" Name="efternavn" />
+      <Variable x:TypeArguments="x:Int32" Name="excelRow" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Assign DisplayName="excelPath" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[excelPath]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[in_Config("ExcelPath").ToString()]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="sheetName" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[sheetName]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[in_Config("SheetName").ToString()]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="formUrl" sap2010:WorkflowViewState.IdRef="Assign_3">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[formUrl]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[in_Config("FormUrl").ToString()]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="excelRow" sap2010:WorkflowViewState.IdRef="Assign_4">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:Int32">[excelRow]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:Int32">[in_TransactionNumber + 1]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="fornavn" sap2010:WorkflowViewState.IdRef="Assign_5">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[fornavn]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[If(in_TransactionItem Is Nothing OrElse IsDBNull(in_TransactionItem("Fornavn")), "", in_TransactionItem("Fornavn").ToString().Trim())]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="efternavn" sap2010:WorkflowViewState.IdRef="Assign_6">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[efternavn]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[If(in_TransactionItem Is Nothing OrElse IsDBNull(in_TransactionItem("Efternavn")), "", in_TransactionItem("Efternavn").ToString().Trim())]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <If Condition="[String.IsNullOrWhiteSpace(fornavn) OrElse String.IsNullOrWhiteSpace(efternavn)]" DisplayName="Validate required fields (BRE)" sap2010:WorkflowViewState.IdRef="If_1">
+      <If.Then>
+        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <ui:WriteCell Cell="[&quot;F&quot; &amp; excelRow.ToString()]" DisplayName="Write Fejl" sap2010:WorkflowViewState.IdRef="WriteCell_1" SheetName="[sheetName]" Text="Fejl" WorkbookPath="[excelPath]" />
+          <ui:WriteCell Cell="[&quot;G&quot; &amp; excelRow.ToString()]" DisplayName="Write Fejlbesked" sap2010:WorkflowViewState.IdRef="WriteCell_Fejlbesked1" SheetName="[sheetName]" Text="Obligatoriske felter mangler (Fornavn/Efternavn)" WorkbookPath="[excelPath]" />
+          <ui:LogMessage DisplayName="Log missing fields" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Error" Message="[&quot;BusinessRuleException: Obligatoriske felter mangler for række &quot; &amp; excelRow.ToString()]" />
+          <Throw Exception="[New Exception(&quot;BusinessRuleException: Obligatoriske felter mangler (Fornavn/Efternavn)&quot;)]" sap2010:WorkflowViewState.IdRef="Throw_1" />
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_3" />
+      </If.Else>
+    </If>
+    <uix:NApplicationCard AttachMode="ByInstance" CloseMode="Always" DisplayName="Use Browser - form" HealingAgentBehavior="Job" sap2010:WorkflowViewState.IdRef="NApplicationCard_1" OpenMode="Always" ScopeGuid="11111111-2222-3333-4444-555555555555" Version="V2">
+      <uix:NApplicationCard.Body>
+        <ActivityAction x:TypeArguments="x:Object">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Do" sap2010:WorkflowViewState.IdRef="Sequence_4">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <TryCatch DisplayName="Try fill form" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+              <TryCatch.Try>
+                <Sequence DisplayName="Fill and submit" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                  <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" DisplayName="Type Into - First Name" EmptyFieldMode="SingleLine" HealingAgentBehavior="SameAsCard" sap2010:WorkflowViewState.IdRef="NTypeInto_1" ScopeIdentifier="11111111-2222-3333-4444-555555555555" Text="[fornavn]" Version="V5">
+                    <uix:NTypeInto.Target>
+                      <uix:TargetAnchorable BrowserURL="[formUrl]" DesignTimeRectangle="0, 0, 0, 0" ElementType="InputBox" FullSelectorArgument="&lt;webctrl id='firstName' tag='INPUT' /&gt;" Guid="aaaaaaaa-1111-1111-1111-111111111111" InformativeScreenshot="screenshot.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='*DEMOQA*' url='*demoqa.com/automation-practice-form*' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
+                    </uix:NTypeInto.Target>
+                  </uix:NTypeInto>
+                  <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" DisplayName="Type Into - Last Name" EmptyFieldMode="SingleLine" HealingAgentBehavior="SameAsCard" sap2010:WorkflowViewState.IdRef="NTypeInto_2" ScopeIdentifier="11111111-2222-3333-4444-555555555555" Text="[efternavn]" Version="V5">
+                    <uix:NTypeInto.Target>
+                      <uix:TargetAnchorable BrowserURL="[formUrl]" DesignTimeRectangle="0, 0, 0, 0" ElementType="InputBox" FullSelectorArgument="&lt;webctrl id='lastName' tag='INPUT' /&gt;" Guid="aaaaaaaa-2222-2222-2222-222222222222" InformativeScreenshot="screenshot.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='*DEMOQA*' url='*demoqa.com/automation-practice-form*' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
+                    </uix:NTypeInto.Target>
+                  </uix:NTypeInto>
+                  <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click - Submit" HealingAgentBehavior="SameAsCard" sap2010:WorkflowViewState.IdRef="NClick_1" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="11111111-2222-3333-4444-555555555555" Version="V5">
+                    <uix:NClick.Target>
+                      <uix:TargetAnchorable BrowserURL="[formUrl]" DesignTimeRectangle="0, 0, 0, 0" ElementType="Button" FullSelectorArgument="&lt;webctrl id='submit' tag='BUTTON' /&gt;" Guid="aaaaaaaa-3333-3333-3333-333333333333" InformativeScreenshot="screenshot.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='*DEMOQA*' url='*demoqa.com/automation-practice-form*' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
+                    </uix:NClick.Target>
+                  </uix:NClick>
+                  <ui:WriteCell Cell="[&quot;F&quot; &amp; excelRow.ToString()]" DisplayName="Write OK" sap2010:WorkflowViewState.IdRef="WriteCell_2" SheetName="[sheetName]" Text="OK" WorkbookPath="[excelPath]" />
+                  <ui:LogMessage DisplayName="Log OK" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;OK: &quot; &amp; fornavn &amp; &quot; &quot; &amp; efternavn]" />
+                </Sequence>
+              </TryCatch.Try>
+              <TryCatch.Catches>
+                <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch_1">
+                  <ActivityAction x:TypeArguments="s:Exception">
+                    <ActivityAction.Argument>
+                      <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                    </ActivityAction.Argument>
+                    <Sequence DisplayName="Handle failure" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                      <ui:WriteCell Cell="[&quot;F&quot; &amp; excelRow.ToString()]" DisplayName="Write Fejl" sap2010:WorkflowViewState.IdRef="WriteCell_3" SheetName="[sheetName]" Text="Fejl" WorkbookPath="[excelPath]" />
+                      <ui:WriteCell Cell="[&quot;G&quot; &amp; excelRow.ToString()]" DisplayName="Write Fejlbesked" sap2010:WorkflowViewState.IdRef="WriteCell_Fejlbesked2" SheetName="[sheetName]" Text="[exception.Message]" WorkbookPath="[excelPath]" />
+                      <ui:LogMessage DisplayName="Log failure" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Error" Message="[&quot;Fejl ved &quot; &amp; fornavn &amp; &quot; &quot; &amp; efternavn &amp; &quot;: &quot; &amp; exception.Message]" />
+                      <Rethrow sap2010:WorkflowViewState.IdRef="Rethrow_1" />
+                    </Sequence>
+                  </ActivityAction>
+                </Catch>
+              </TryCatch.Catches>
+            </TryCatch>
+          </Sequence>
+        </ActivityAction>
+      </uix:NApplicationCard.Body>
+      <uix:NApplicationCard.OCREngine>
+        <ActivityFunc x:TypeArguments="sd1:Image, scg:IEnumerable(scg:KeyValuePair(sd2:Rectangle, x:String))">
+          <ActivityFunc.Argument>
+            <DelegateInArgument x:TypeArguments="sd1:Image" Name="Image" />
+          </ActivityFunc.Argument>
+        </ActivityFunc>
+      </uix:NApplicationCard.OCREngine>
+      <uix:NApplicationCard.TargetApp>
+        <uix:TargetApp Area="0, 0, 0, 0" Selector="&lt;html app='chrome.exe' title='*DEMOQA*' url='*demoqa.com/automation-practice-form*' /&gt;" Url="[formUrl]" Version="V3" />
+      </uix:NApplicationCard.TargetApp>
+    </uix:NApplicationCard>
+  </Sequence>
+</Activity>

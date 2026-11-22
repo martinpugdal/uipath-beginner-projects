@@ -1,0 +1,140 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property sap2010:Annotation.AnnotationText="Transaction item to be processed." Name="in_TransactionItem" Type="InArgument(ui:QueueItem)" />
+    <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+  </x:Members>
+  <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Globalization</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.CSharp</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Process" sap:VirtualizedContainerService.HintSize="600,1200" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="FakturaNr" />
+      <Variable x:TypeArguments="x:String" Name="Leverandør" />
+      <Variable x:TypeArguments="x:String" Name="DatoTekst" />
+      <Variable x:TypeArguments="x:String" Name="BeløbTekst" />
+      <Variable x:TypeArguments="s:DateTime" Name="FakturaDato" />
+      <Variable x:TypeArguments="s:Decimal" Name="Beløb" />
+      <Variable x:TypeArguments="x:Int32" Name="MaxAlderDage" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message Process Start" sap:VirtualizedContainerService.HintSize="558,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info">
+      <ui:LogMessage.Message>
+        <InArgument x:TypeArguments="x:Object">
+          <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_1">"Started Process"</CSharpValue>
+        </InArgument>
+      </ui:LogMessage.Message>
+    </ui:LogMessage>
+    <Assign DisplayName="Assign FakturaNr" sap:VirtualizedContainerService.HintSize="558,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To><OutArgument x:TypeArguments="x:String"><CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_1">FakturaNr</CSharpReference></OutArgument></Assign.To>
+      <Assign.Value><InArgument x:TypeArguments="x:String"><CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_2">in_TransactionItem.SpecificContent.ContainsKey("FakturaNr") ? in_TransactionItem.SpecificContent["FakturaNr"].ToString().Trim() : ""</CSharpValue></InArgument></Assign.Value>
+    </Assign>
+    <Assign DisplayName="Assign Leverandør" sap:VirtualizedContainerService.HintSize="558,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign.To><OutArgument x:TypeArguments="x:String"><CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_2">Leverandør</CSharpReference></OutArgument></Assign.To>
+      <Assign.Value><InArgument x:TypeArguments="x:String"><CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_3">in_TransactionItem.SpecificContent.ContainsKey("Leverandør") ? in_TransactionItem.SpecificContent["Leverandør"].ToString().Trim() : ""</CSharpValue></InArgument></Assign.Value>
+    </Assign>
+    <Assign DisplayName="Assign DatoTekst" sap:VirtualizedContainerService.HintSize="558,60" sap2010:WorkflowViewState.IdRef="Assign_3">
+      <Assign.To><OutArgument x:TypeArguments="x:String"><CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_3">DatoTekst</CSharpReference></OutArgument></Assign.To>
+      <Assign.Value><InArgument x:TypeArguments="x:String"><CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_4">in_TransactionItem.SpecificContent.ContainsKey("Dato") ? in_TransactionItem.SpecificContent["Dato"].ToString().Trim() : ""</CSharpValue></InArgument></Assign.Value>
+    </Assign>
+    <Assign DisplayName="Assign BeløbTekst" sap:VirtualizedContainerService.HintSize="558,60" sap2010:WorkflowViewState.IdRef="Assign_4">
+      <Assign.To><OutArgument x:TypeArguments="x:String"><CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_4">BeløbTekst</CSharpReference></OutArgument></Assign.To>
+      <Assign.Value><InArgument x:TypeArguments="x:String"><CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_5">in_TransactionItem.SpecificContent.ContainsKey("Beløb") ? in_TransactionItem.SpecificContent["Beløb"].ToString().Trim() : ""</CSharpValue></InArgument></Assign.Value>
+    </Assign>
+    <Assign DisplayName="Assign MaxAlderDage" sap:VirtualizedContainerService.HintSize="558,60" sap2010:WorkflowViewState.IdRef="Assign_5">
+      <Assign.To><OutArgument x:TypeArguments="x:Int32"><CSharpReference x:TypeArguments="x:Int32" sap2010:WorkflowViewState.IdRef="CSharpReference`1_5">MaxAlderDage</CSharpReference></OutArgument></Assign.To>
+      <Assign.Value><InArgument x:TypeArguments="x:Int32"><CSharpValue x:TypeArguments="x:Int32" sap2010:WorkflowViewState.IdRef="CSharpValue`1_6">Convert.ToInt32(in_Config["MaxAlderDage"])</CSharpValue></InArgument></Assign.Value>
+    </Assign>
+    <If DisplayName="Regel 1 - Obligatoriske felter" sap:VirtualizedContainerService.HintSize="558,120" sap2010:WorkflowViewState.IdRef="If_1">
+      <If.Condition><InArgument x:TypeArguments="x:Boolean"><CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_7">string.IsNullOrWhiteSpace(FakturaNr) || string.IsNullOrWhiteSpace(Leverandør)</CSharpValue></InArgument></If.Condition>
+      <If.Then>
+        <Throw DisplayName="Throw BRE Obligatoriske felter" sap:VirtualizedContainerService.HintSize="334,25" sap2010:WorkflowViewState.IdRef="Throw_1">
+          <InArgument x:TypeArguments="s:Exception"><CSharpValue x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="CSharpValue`1_10">new UiPath.Core.BusinessRuleException("Manglende obligatoriske felter")</CSharpValue></InArgument>
+        </Throw>
+      </If.Then>
+    </If>
+    <If DisplayName="Parse Beløb" sap:VirtualizedContainerService.HintSize="558,120" sap2010:WorkflowViewState.IdRef="If_2">
+      <If.Condition><InArgument x:TypeArguments="x:Boolean"><CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_11">!decimal.TryParse(BeløbTekst.Replace(".", "").Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out Beløb)</CSharpValue></InArgument></If.Condition>
+      <If.Then>
+        <Throw DisplayName="Throw BRE Ugyldigt beløb" sap:VirtualizedContainerService.HintSize="334,25" sap2010:WorkflowViewState.IdRef="Throw_2">
+          <InArgument x:TypeArguments="s:Exception"><CSharpValue x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="CSharpValue`1_14">new UiPath.Core.BusinessRuleException("Ugyldigt beløb")</CSharpValue></InArgument>
+        </Throw>
+      </If.Then>
+    </If>
+    <If DisplayName="Regel 2 - Beløb skal være større end 0" sap:VirtualizedContainerService.HintSize="558,120" sap2010:WorkflowViewState.IdRef="If_3">
+      <If.Condition><InArgument x:TypeArguments="x:Boolean"><CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_15">Beløb &lt;= 0</CSharpValue></InArgument></If.Condition>
+      <If.Then>
+        <Throw DisplayName="Throw BRE Beløb" sap:VirtualizedContainerService.HintSize="334,25" sap2010:WorkflowViewState.IdRef="Throw_3">
+          <InArgument x:TypeArguments="s:Exception"><CSharpValue x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="CSharpValue`1_18">new UiPath.Core.BusinessRuleException("Beløb skal være større end 0")</CSharpValue></InArgument>
+        </Throw>
+      </If.Then>
+    </If>
+    <If DisplayName="Parse Dato" sap:VirtualizedContainerService.HintSize="558,120" sap2010:WorkflowViewState.IdRef="If_4">
+      <If.Condition><InArgument x:TypeArguments="x:Boolean"><CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_19">!DateTime.TryParse(DatoTekst, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out FakturaDato) &amp;&amp; !DateTime.TryParse(DatoTekst, new System.Globalization.CultureInfo("da-DK"), System.Globalization.DateTimeStyles.None, out FakturaDato)</CSharpValue></InArgument></If.Condition>
+      <If.Then>
+        <Throw DisplayName="Throw BRE Ugyldig dato" sap:VirtualizedContainerService.HintSize="334,25" sap2010:WorkflowViewState.IdRef="Throw_4">
+          <InArgument x:TypeArguments="s:Exception"><CSharpValue x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="CSharpValue`1_22">new UiPath.Core.BusinessRuleException("Ugyldig dato")</CSharpValue></InArgument>
+        </Throw>
+      </If.Then>
+    </If>
+    <If DisplayName="Regel 3 - Dato må ikke være for gammel" sap:VirtualizedContainerService.HintSize="558,120" sap2010:WorkflowViewState.IdRef="If_5">
+      <If.Condition><InArgument x:TypeArguments="x:Boolean"><CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_23">FakturaDato &lt; DateTime.Today.AddDays(-MaxAlderDage)</CSharpValue></InArgument></If.Condition>
+      <If.Then>
+        <Throw DisplayName="Throw BRE For gammel" sap:VirtualizedContainerService.HintSize="334,25" sap2010:WorkflowViewState.IdRef="Throw_5">
+          <InArgument x:TypeArguments="s:Exception"><CSharpValue x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="CSharpValue`1_26">new UiPath.Core.BusinessRuleException("Faktura er for gammel")</CSharpValue></InArgument>
+        </Throw>
+      </If.Then>
+    </If>
+    <ui:LogMessage DisplayName="Log Godkendt" sap:VirtualizedContainerService.HintSize="558,91" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info">
+      <ui:LogMessage.Message>
+        <InArgument x:TypeArguments="x:Object">
+          <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_29">"Faktura godkendt: " + FakturaNr</CSharpValue>
+        </InArgument>
+      </ui:LogMessage.Message>
+    </ui:LogMessage>
+  </Sequence>
+</Activity>

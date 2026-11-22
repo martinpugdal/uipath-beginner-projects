@@ -1,0 +1,6 @@
+{
+  "Name": "Automatiseret faktura-validering og registrering",
+  "ProjectType": "Process",
+  "Description": "Robotic Enterprise Framework",
+  "MainFile": "Main.xaml"
+}
